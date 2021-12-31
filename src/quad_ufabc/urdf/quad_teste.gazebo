@@ -1,0 +1,26 @@
+<?xml version="1.0"?>
+<robot>
+
+	<gazebo reference="battery">
+		<material>Gazebo/Blue</material>
+	</gazebo>
+
+	<gazebo reference="arduino">
+		<material>Gazebo/Green</material>
+	</gazebo>
+
+    <gazebo reference="motor_1_bottom">
+		<material>Gazebo/Orange</material>
+	</gazebo>
+    <gazebo reference="motor_2_bottom">
+		<material>Gazebo/Orange</material>
+	</gazebo>
+    <gazebo reference="motor_3_bottom">
+		<material>Gazebo/Orange</material>
+	</gazebo>
+    <gazebo reference="motor_4_bottom">
+		<material>Gazebo/Orange</material>
+	</gazebo>
+
+
+</robot>

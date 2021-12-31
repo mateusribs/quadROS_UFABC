@@ -1,0 +1,681 @@
+<?xml version="1.0"?>
+<robot xmlns:xacro="http://www.ros.org/wiki/xacro" name="quad_ufabc">
+	<pose>0 0 0.05 0 0 0</pose>
+
+	<xacro:property name="pi" value="3.1415926536" />
+	<xacro:property name="wiring_weight" value="0.08" />
+	<xacro:property name="esc_weight" value="0.027" />
+
+	<xacro:include filename="$(find quad_ufabc)/urdf/quad_teste.gazebo" />
+	<!--
+	<link name="world" />
+	<joint name="world_joint"  type="fixed">
+		<origin xyz="0 0 0" rpy="0 0 0" />
+		<parent link="world"/>
+		<child link="chassis"/>
+	</joint>-->
+
+
+	<link name="chassis">
+		<inertial>
+			<origin xyz="0 0 0.03"/>
+			<mass value="0.282"/>
+			<inertia ixx="0.003347181" ixy="0.0" ixz="0.0" iyy="0.003347181" iyz="0.0" izz="0.005857567"/>
+		</inertial>
+
+		<collision name="collision_0">
+		  	<origin xyz="0 0 0.02"/>
+			<geometry>
+				<box size="0.15 0.15 0.05"/>
+			</geometry>
+	  	</collision>
+
+		<collision name="collision_1">
+			<origin xyz="0 0 0.03"/>
+			<geometry>
+				<box size="0.58 0.04 0.02"/>
+			</geometry>
+		</collision>
+
+		<collision name="collision_2">
+			<origin xyz="0 0 0.03"/>
+			<geometry>
+				<box size="0.04 0.58 0.02"/>
+			</geometry>
+		</collision>
+
+		<collision name="collision_motor_1">
+			<origin xyz="0.0 -0.26 0.075"/>
+			<geometry>
+				<cylinder radius="0.125" length="0.01"/>
+			</geometry>
+		</collision>
+	  
+		<collision name="collision_motor_2">
+			<origin xyz="0.26 0 0.075"/>
+			<geometry>
+				<cylinder radius="0.125" length="0.01"/>
+			</geometry>
+		</collision>
+
+		<collision name="collision_motor_3">
+			<origin xyz="0.0 0.26 0.075"/>
+			<geometry>
+				<cylinder radius="0.125" length="0.01"/>
+			</geometry>
+		</collision>
+	  
+		<collision name="collision_motor_4">
+			<origin xyz="-0.26 0 0.075"/>
+			<geometry>
+				<cylinder radius="0.125" length="0.01"/>
+			</geometry>
+		</collision>
+
+		<visual name="quadcopter">
+			<geometry>
+			<mesh filename="package://quad_ufabc/meshes/quad_simple.dae"/>
+			</geometry>
+		</visual>
+	</link>
+	
+	<link name="IMU">
+		<inertial>
+			<origin xyz="0 0 0.03" rpy="0 0 0"/>
+			<mass value="0.005"/>
+			<inertia ixx="0.000649278" ixy="0.0" ixz="0.0" iyy="0.000610974" iyz="0.0" izz="${9.5004e-05}"/>
+		</inertial>
+
+		<visual>
+			<geometry>
+				<box size="0.02 0.02 0.001"/>
+			</geometry>
+		</visual>
+	</link>
+	
+	<joint type="fixed" name="IMU_mount">
+		<origin xyz="0 0 0.03" rpy="0 0 0"/>
+		<child link="IMU"/>
+		<parent link="chassis"/>
+	</joint>
+
+	<!--Lipo 11.1v 3s 5200mah-->
+	<link name="battery">
+		<inertial>
+			<origin xyz="0 0 0.0"/>
+			<mass value="0.378"/>
+			<inertia ixx="0.000649278" ixy="0.0" ixz="0.0" iyy="0.000610974" iyz="0.0" izz="${9.5004e-05}"/>
+		</inertial>
+
+		<visual>
+			<geometry>
+				<box size="0.030 0.046 0.136"/>
+			</geometry>
+		</visual>
+	</link>
+
+	<joint type="fixed" name="battery_mount">
+		<origin xyz="0 0 0.018" rpy="0 ${pi/2} ${pi/4}"/>
+		<child link="battery"/>
+		<parent link="chassis"/>
+	</joint>
+
+	<!--Arduino + Wiring - Arduino mega-->
+	<link name="arduino">
+		<inertial>
+			<origin xyz="0 0 0.0"/>
+			<mass value="${0.037+wiring_weight+esc_weight*4}"/>
+			<inertia ixx="${8.73816666666667e-06}" ixy="0.0" ixz="0.0" iyy="${3.15301666666667e-05}" iyz="0.0" izz="${4.01141666666667e-05}"/>
+		</inertial>
+
+		<visual>
+			<geometry>
+				<box size="0.101 0.053 0.005"/>
+			</geometry>
+		</visual>
+	</link>
+
+	<joint type="fixed" name="arduino_mount">
+		<origin xyz="0 0 0.048" rpy="0 0 ${pi/4}"/>
+		<child link="arduino"/>
+		<parent link="chassis"/>
+	</joint>
+
+	<!-- first propeller -->
+	<link name="motor_1_bottom">
+		<inertial>
+			<mass value="0.053"/>
+			<inertia ixx="1.3e-5" ixy="0" ixz="0.0" iyy="1.3e-5" iyz="0.0" izz="5e-6"/>
+		</inertial>
+		<visual>
+			<geometry>
+				<cylinder radius="0.014" length="0.026"/>
+			</geometry>
+		</visual>
+	</link>
+
+
+	<link name="motor_1">
+		<inertial>
+			<mass value="0.014"/>
+			<inertia ixx="1e-7" ixy="0" ixz="0.0" iyy="5e-6" iyz="0.0" izz="5e-6"/>
+		</inertial>
+		<visual>
+			<geometry>
+			<mesh filename="package://quad_ufabc/meshes/prop_cw_teste.dae"/>
+			</geometry>
+		</visual>
+	</link>
+
+	<joint type="fixed" name="bottom_1_mount">
+		<origin xyz="0 0 0.018"/>
+		<child link="motor_1"/>
+		<parent link="motor_1_bottom"/>
+	</joint>
+
+	<joint type="continuous" name="joint_prop_1">
+		<origin xyz="0 -0.26 0.055"/>
+		<child link="motor_1_bottom"/>
+		<parent link="chassis"/>
+		<axis xyz="0 0 1"/>
+	</joint>
+
+  	<!-- second propeller -->
+	<link name="motor_2_bottom">
+		<inertial>
+			<mass value="0.053"/>
+			<inertia ixx="1.3e-5" ixy="0" ixz="0.0" iyy="1.3e-5" iyz="0.0" izz="5e-6"/>
+		</inertial>
+		<visual>
+			<geometry>
+				<cylinder radius="0.014" length="0.026"/>
+			</geometry>
+		</visual>
+	</link>
+
+
+	<link name="motor_2">
+		<inertial>
+			<mass value="0.014"/>
+			<inertia ixx="1e-7" ixy="0" ixz="0.0" iyy="5e-6" iyz="0.0" izz="5e-6"/>
+		</inertial>
+		<visual>
+			<geometry>
+			<mesh filename="package://quad_ufabc/meshes/prop_ccw_teste.dae"/>
+			</geometry>
+		</visual>
+	</link>
+
+	<joint type="fixed" name="bottom_2_mount">
+		<origin xyz="0 0 0.018"/>
+		<child link="motor_2"/>
+		<parent link="motor_2_bottom"/>
+	</joint>
+
+	<joint type="continuous" name="joint_prop_2">
+		<origin xyz="0.26 0 0.055"/>
+		<child link="motor_2_bottom"/>
+		<parent link="chassis"/>
+		<axis xyz="0 0 1"/>
+	</joint>
+
+	<!-- third propeller -->
+	<link name="motor_3_bottom">
+		<inertial>
+			<mass value="0.053"/>
+			<inertia ixx="1.3e-5" ixy="0" ixz="0.0" iyy="1.3e-5" iyz="0.0" izz="5e-6"/>
+		</inertial>
+		<visual>
+			<geometry>
+				<cylinder radius="0.014" length="0.026"/>
+			</geometry>
+		</visual>
+	</link>
+
+
+	<link name="motor_3">
+		<inertial>
+			<mass value="0.014"/>
+			<inertia ixx="1e-7" ixy="0" ixz="0.0" iyy="5e-6" iyz="0.0" izz="5e-6"/>
+		</inertial>
+		<visual>
+			<geometry>
+			<mesh filename="package://quad_ufabc/meshes/prop_cw_teste.dae"/>
+			</geometry>
+		</visual>
+	</link>
+
+	<joint type="fixed" name="bottom_3_mount">
+		<origin xyz="0 0 0.018"/>
+		<child link="motor_3"/>
+		<parent link="motor_3_bottom"/>
+	</joint>
+
+	<joint type="continuous" name="joint_prop_3">
+		<origin xyz="0 0.26 0.055"/>
+		<child link="motor_3_bottom"/>
+		<parent link="chassis"/>
+		<axis xyz="0 0 1"/>
+	</joint>
+
+	<!-- fourth propeller -->
+	<link name="motor_4_bottom">
+		<inertial>
+			<mass value="0.053"/>
+			<inertia ixx="1.3e-5" ixy="0" ixz="0.0" iyy="1.3e-5" iyz="0.0" izz="5e-6"/>
+		</inertial>
+		<visual>
+			<geometry>
+				<cylinder radius="0.014" length="0.026"/>
+			</geometry>
+		</visual>
+	</link>
+
+
+	<link name="motor_4">
+		<inertial>
+			<mass value="0.014"/>
+			<inertia ixx="1e-7" ixy="0" ixz="0.0" iyy="5e-6" iyz="0.0" izz="5e-6"/>
+		</inertial>
+		<visual>
+			<geometry>
+			<mesh filename="package://quad_ufabc/meshes/prop_ccw_teste.dae"/>
+			</geometry>
+		</visual>
+	</link>
+
+	<joint type="fixed" name="bottom_4_mount">
+		<origin xyz="0 0 0.018"/>
+		<child link="motor_4"/>
+		<parent link="motor_4_bottom"/>
+	</joint>
+
+	<joint type="continuous" name="joint_prop_4">
+		<origin xyz="-0.26 0 0.055"/>
+		<child link="motor_4_bottom"/>
+		<parent link="chassis"/>
+		<axis xyz="0 0 1"/>
+	</joint>
+	
+	<link name="aruco">
+	
+		<inertia>
+  			<origin xyz="0 0 0" rpy="0 0 0"/>
+  			<mass value="0.00001" />
+  			<inertia ixx="0.07" ixy="0.0" ixz="0.0" iyy="0.05" iyz="0.0" izz="0.02" />
+  		</inertia>
+  		
+		<collision>
+			<geometry>
+				<box size="0.15 0.15 0.001"/>
+			</geometry>
+		</collision>
+
+		<visual>
+			<geometry>
+				<mesh filename="package://quad_ufabc/meshes/aruco_movel.dae"/>
+			</geometry>
+		</visual>
+	</link>
+
+	<joint type="fixed" name = "aruco_joint">
+		<origin xyz="0 0 0.055"/>
+		<child link="aruco"/>
+		<parent link="chassis"/>
+	</joint>
+
+	<!-- Drag and Lift Plugin -->
+	<!-- Prop 1 -->
+	<gazebo>
+		<plugin name="lift_prop_1_half_1" filename="libLiftDragPlugin.so">
+			<a0>0.4</a0>
+			<cla>4.752798721</cla>
+			<cda>1.4</cda>
+			<cma>0</cma>
+			<alpha_stall>1.5</alpha_stall>
+			<cla_stall>-3.85</cla_stall>
+			<cda_stall>-0.9233984055</cda_stall>
+			<cma_stall>0</cma_stall>
+			<cp>-0.05725 0 0.018</cp>
+			<area>0.19</area>
+			<air_density>1.2041</air_density>
+			<forward>0 1 0</forward>
+			<upward>0 0 1</upward>
+			<link_name>motor_1_bottom</link_name>
+		</plugin>
+	</gazebo>
+
+	<gazebo>
+		<plugin name="lift_prop_1_half_2" filename="libLiftDragPlugin.so">
+			<a0>0.4</a0>
+			<cla>4.752798721</cla>
+			<cda>1.4</cda>
+			<cma>0</cma>
+			<alpha_stall>1.5</alpha_stall>
+			<cla_stall>-3.85</cla_stall>
+			<cda_stall>-0.9233984055</cda_stall>
+			<cma_stall>0</cma_stall>
+			<cp>0.05725 0 0.018</cp>
+			<area>0.19</area>
+			<air_density>1.2041</air_density>
+			<forward>0 -1 0</forward>
+			<upward>0 0 1</upward>
+			<link_name>motor_1_bottom</link_name>
+		</plugin>
+	</gazebo>
+
+	<!-- Prop 2 -->
+	<gazebo>
+		<plugin name="lift_prop_2_half_1" filename="libLiftDragPlugin.so">
+			<a0>0.4</a0>
+			<cla>4.752798721</cla>
+			<cda>1.4</cda>
+			<cma>0</cma>
+			<alpha_stall>1.5</alpha_stall>
+			<cla_stall>-3.85</cla_stall>
+			<cda_stall>-0.9233984055</cda_stall>
+			<cma_stall>0</cma_stall>
+			<cp>-0.05725 0 0.018</cp>
+			<area>0.19</area>
+			<air_density>1.2041</air_density>
+			<forward>0 1 0</forward>
+			<upward>0 0 -1</upward>
+			<link_name>motor_2_bottom</link_name>
+		</plugin>
+	</gazebo>
+
+	<gazebo>
+		<plugin name="lift_prop_2_half_2" filename="libLiftDragPlugin.so">
+			<a0>0.4</a0>
+			<cla>4.752798721</cla>
+			<cda>1.4</cda>
+			<cma>0</cma>
+			<alpha_stall>1.5</alpha_stall>
+			<cla_stall>-3.85</cla_stall>
+			<cda_stall>-0.9233984055</cda_stall>
+			<cma_stall>0</cma_stall>
+			<cp>0.05725 0 0.018</cp>
+			<area>0.19</area>
+			<air_density>1.2041</air_density>
+			<forward>0 -1 0</forward>
+			<upward>0 0 -1</upward>
+			<link_name>motor_2_bottom</link_name>
+		</plugin>
+	</gazebo>
+
+	<!-- Prop 3 -->
+
+	<gazebo>
+		<plugin name="lift_prop_3_half_1" filename="libLiftDragPlugin.so">
+			<a0>0.4</a0>
+			<cla>4.752798721</cla>
+			<cda>1.4</cda>
+			<cma>0</cma>
+			<alpha_stall>1.5</alpha_stall>
+			<cla_stall>-3.85</cla_stall>
+			<cda_stall>-0.9233984055</cda_stall>
+			<cma_stall>0</cma_stall>
+			<cp>-0.05725 0 0.018</cp>
+			<area>0.19</area>
+			<air_density>1.2041</air_density>
+			<forward>0 1 0</forward>
+			<upward>0 0 1</upward>
+			<link_name>motor_3_bottom</link_name>
+		</plugin>
+	</gazebo>
+
+	<gazebo>
+		<plugin name="lift_prop_3_half_2" filename="libLiftDragPlugin.so">
+			<a0>0.4</a0>
+			<cla>4.752798721</cla>
+			<cda>1.4</cda>
+			<cma>0</cma>
+			<alpha_stall>1.5</alpha_stall>
+			<cla_stall>-3.85</cla_stall>
+			<cda_stall>-0.9233984055</cda_stall>
+			<cma_stall>0</cma_stall>
+			<cp>0.05725 0 0.018</cp>
+			<area>0.19</area>
+			<air_density>1.2041</air_density>
+			<forward>0 -1 0</forward>
+			<upward>0 0 1</upward>
+			<link_name>motor_3_bottom</link_name>
+		</plugin>
+	</gazebo>
+
+	<!-- Prop 4 -->
+
+	<gazebo>
+		<plugin name="lift_prop_4_half_1" filename="libLiftDragPlugin.so">
+			<a0>0.4</a0>
+			<cla>4.752798721</cla>
+			<cda>1.4</cda>
+			<cma>0</cma>
+			<alpha_stall>1.5</alpha_stall>
+			<cla_stall>-3.85</cla_stall>
+			<cda_stall>-0.9233984055</cda_stall>
+			<cma_stall>0</cma_stall>
+			<cp>-0.05725 0 0.018</cp>
+			<area>0.19</area>
+			<air_density>1.2041</air_density>
+			<forward>0 1 0</forward>
+			<upward>0 0 -1</upward>
+			<link_name>motor_4_bottom</link_name>
+		</plugin>
+	</gazebo>
+
+	<gazebo>
+		<plugin name="lift_prop_4_half_2" filename="libLiftDragPlugin.so">
+			<a0>0.4</a0>
+			<cla>4.752798721</cla>
+			<cda>1.4</cda>
+			<cma>0</cma>
+			<alpha_stall>1.5</alpha_stall>
+			<cla_stall>-3.85</cla_stall>
+			<cda_stall>-0.9233984055</cda_stall>
+			<cma_stall>0</cma_stall>
+			<cp>0.05725 0 0.018</cp>
+			<area>0.19</area>
+			<air_density>1.2041</air_density>
+			<forward>0 -1 0</forward>
+			<upward>0 0 -1</upward>
+			<link_name>motor_4_bottom</link_name>
+		</plugin>
+	</gazebo>
+
+	<!-- Velocity Controller -->
+
+	<gazebo>
+		<plugin name="gazebo_ros_control" filename="libgazebo_ros_control.so">
+			<robotNamespace>/quad</robotNamespace>
+		</plugin>
+	</gazebo>
+
+	<transmission name="trans_1" >
+		<type>transmission_interface/SimpleTransmission</type>
+		<joint name="joint_prop_1">
+			<hardwareInterface>hardware_interface/VelocityJointInterface</hardwareInterface>
+		</joint>
+		<actuator name="motor1">
+			<hardwareInterface>hardware_interface/VelocityJointInterface</hardwareInterface>
+			<mechanicalReduction>1</mechanicalReduction>
+		</actuator>
+	</transmission>
+
+	<transmission name="trans_2" >
+		<type>transmission_interface/SimpleTransmission</type>
+		<joint name="joint_prop_2">
+			<hardwareInterface>hardware_interface/VelocityJointInterface</hardwareInterface>
+		</joint>
+		<actuator name="motor2">
+			<hardwareInterface>hardware_interface/VelocityJointInterface</hardwareInterface>
+			<mechanicalReduction>1</mechanicalReduction>
+		</actuator>
+	</transmission>
+
+	<transmission name="trans_3" >
+		<type>transmission_interface/SimpleTransmission</type>
+		<joint name="joint_prop_3">
+			<hardwareInterface>hardware_interface/VelocityJointInterface</hardwareInterface>
+		</joint>
+		<actuator name="motor3">
+			<hardwareInterface>hardware_interface/VelocityJointInterface</hardwareInterface>
+			<mechanicalReduction>1</mechanicalReduction>
+		</actuator>
+	</transmission>
+
+	<transmission name="trans_4" >
+		<type>transmission_interface/SimpleTransmission</type>
+		<joint name="joint_prop_4">
+			<hardwareInterface>hardware_interface/VelocityJointInterface</hardwareInterface>
+		</joint>
+		<actuator name="motor4">
+			<hardwareInterface>hardware_interface/VelocityJointInterface</hardwareInterface>
+			<mechanicalReduction>1</mechanicalReduction>
+		</actuator>
+	</transmission>
+	
+	<gazebo reference="IMU">
+	    <gravity>true</gravity>
+	    <sensor name="imu_sensor" type="imu">
+	    
+	    <imu>
+		  <angular_velocity>
+		    <x>
+		      <noise type="gaussian">
+		        <mean>0.0</mean>
+		        <stddev>3.5e-2</stddev>
+		        <bias_mean>0.0</bias_mean>
+		        <bias_stddev>0</bias_stddev>
+		      </noise>
+		    </x>
+		    <y>
+		      <noise type="gaussian">
+		        <mean>0.0</mean>
+		        <stddev>3.5e-2</stddev>
+		        <bias_mean>0.0</bias_mean>
+		        <bias_stddev>0</bias_stddev>
+		      </noise>
+		    </y>
+		    <z>
+		      <noise type="gaussian">
+		        <mean>0.0</mean>
+		        <stddev>3.5e-2</stddev>
+		        <bias_mean>-0.0</bias_mean>
+		        <bias_stddev>0</bias_stddev>
+		      </noise>
+		    </z>
+		  </angular_velocity>
+		  <linear_acceleration>
+		    <x>
+		      <noise type="gaussian">
+		        <mean>0.0</mean>
+		        <stddev>0.05</stddev>
+		        <bias_mean>0.0</bias_mean>
+		        <bias_stddev>0</bias_stddev>
+		      </noise>
+		    </x>
+		    <y>
+		      <noise type="gaussian">
+		        <mean>0.0</mean>
+		        <stddev>0.05</stddev>
+		        <bias_mean>0.0</bias_mean>
+		        <bias_stddev>0</bias_stddev>
+		      </noise>
+		    </y>
+		    <z>
+		      <noise type="gaussian">
+		        <mean>0.0</mean>
+		        <stddev>0.05</stddev>
+		        <bias_mean>0.0</bias_mean>
+		        <bias_stddev>0</bias_stddev>
+		      </noise>
+		    </z>
+		  </linear_acceleration>
+		</imu>
+	    
+	      <always_on>true</always_on>
+	      <update_rate>100</update_rate>
+	      <visualize>true</visualize>
+	      <topic>__default_topic__</topic>
+	      <plugin filename="libgazebo_ros_imu_sensor.so" name="imu_plugin">
+		<topicName>imu</topicName>
+		<bodyName>IMU</bodyName>
+		<updateRateHZ>100.0</updateRateHZ>
+		<gaussianNoise>0.0</gaussianNoise>
+		<xyzOffset>0 0 0</xyzOffset>
+		<rpyOffset>0 0 0</rpyOffset>
+		<frameName>IMU</frameName>
+		<initialOrientationAsReference>false</initialOrientationAsReference>
+	      </plugin>
+	      <pose>0 0 0 0 0 0</pose>
+	    </sensor>
+  	</gazebo> 
+  	
+  	
+    <!--<gazebo reference="IMU">
+      <sensor type="imu" name="imu_sensor">
+        <always_on>true</always_on>
+        <pose>0 0 0 0 0 0</pose>
+	<visualize>true</visualize>
+	<topic>__default_topic__</topic>
+        <plugin name="imu_plugin" filename="libhector_gazebo_ros_sonar.so">
+               <updateRate>100</updateRate>
+		<bodyName>IMU</bodyName>
+		<topicName>imu</topicName>
+		<accelOffset>0 0 0</accelOffset>
+		<accelDrift>1e-4 1e-4 1e-4</accelDrift>
+		<accelGaussianNoise>0.05 0.05 0.05</accelGaussianNoise>
+		<rateOffset>0 0 0</rateOffset>
+		<rateDrift>1e-4 1e-4 1e-4</rateDrift>
+		<rateGaussianNoise>3.5e-2 3.5e-2 3.5e-2</rateGaussianNoise>
+        </plugin>
+      </sensor>
+    </gazebo> -->
+	
+	<!-- Force sensors on each of the motors - For debugging only -->
+	<!-- <gazebo reference="joint_prop_1">
+		<provideFeedback>true</provideFeedback>
+	</gazebo>
+	<gazebo>
+		<plugin name="ft_sensor_1" filename="libgazebo_ros_ft_sensor.so">
+			<updateRate>1.0</updateRate>
+			<topicName>ft_sensor_topic_1</topicName>
+			<jointName>joint_prop_1</jointName>
+		</plugin>
+	</gazebo>
+
+	<gazebo reference="joint_prop_2">
+		<provideFeedback>true</provideFeedback>
+	</gazebo>
+	<gazebo>
+		<plugin name="ft_sensor_2" filename="libgazebo_ros_ft_sensor.so">
+			<updateRate>1.0</updateRate>
+			<topicName>ft_sensor_topic_2</topicName>
+			<jointName>joint_prop_2</jointName>
+		</plugin>
+	</gazebo>
+
+	<gazebo reference="joint_prop_3">
+		<provideFeedback>true</provideFeedback>
+	</gazebo>
+	<gazebo>
+		<plugin name="ft_sensor_3" filename="libgazebo_ros_ft_sensor.so">
+			<updateRate>1.0</updateRate>
+			<topicName>ft_sensor_topic_3</topicName>
+			<jointName>joint_prop_3</jointName>
+		</plugin>
+	</gazebo>
+
+	<gazebo reference="joint_prop_4">
+		<provideFeedback>true</provideFeedback>
+	</gazebo>
+	<gazebo>
+		<plugin name="ft_sensor_4" filename="libgazebo_ros_ft_sensor.so">
+			<updateRate>1.0</updateRate>
+			<topicName>ft_sensor_topic_4</topicName>
+			<jointName>joint_prop_4</jointName>
+		</plugin>
+	</gazebo> -->
+
+</robot>

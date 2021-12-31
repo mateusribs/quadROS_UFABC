@@ -1,0 +1,82 @@
+# Blender MTL File: 'file.blend'
+# Material Count: 6
+
+newmtl Concrete_Material
+Ns 323.999994
+Ka 1.000000 1.000000 1.000000
+Kd 0.800000 0.800000 0.800000
+Ks 0.500000 0.500000 0.500000
+Ke 0.000000 0.000000 0.000000
+Ni 1.450000
+d 1.000000
+illum 2
+map_Bump /home/rafaelcostaf/Desktop/wharehouse/concrete_nrm.png
+map_Kd /home/rafaelcostaf/Desktop/wharehouse/concrete_color.png
+map_Ns /home/rafaelcostaf/Desktop/wharehouse/concrete_rough.png
+refl /home/rafaelcostaf/Desktop/wharehouse/concrete_met.png
+
+newmtl Floor_Material.001
+Ns 323.999994
+Ka 1.000000 1.000000 1.000000
+Kd 0.800000 0.800000 0.800000
+Ks 0.500000 0.500000 0.500000
+Ke 0.000000 0.000000 0.000000
+Ni 1.450000
+d 1.000000
+illum 2
+map_Bump /home/rafaelcostaf/Desktop/wharehouse/Floor_nrm.png
+map_Kd /home/rafaelcostaf/Desktop/wharehouse/Floor_Color.png
+map_Ns /home/rafaelcostaf/Desktop/wharehouse/concrete_rough.png
+refl /home/rafaelcostaf/Desktop/wharehouse/Floor_met.png
+
+newmtl Glass
+Ns 323.999994
+Ka 1.000000 1.000000 1.000000
+Kd 0.800000 0.800000 0.800000
+Ks 0.500000 0.500000 0.500000
+Ke 0.000000 0.000000 0.000000
+Ni 1.000000
+d 1.000000
+illum 2
+
+newmtl Metal
+Ns 225.000000
+Ka 1.000000 1.000000 1.000000
+Kd 0.800000 0.800000 0.800000
+Ks 0.500000 0.500000 0.500000
+Ke 0.000000 0.000000 0.000000
+Ni 1.450000
+d 1.000000
+illum 2
+map_Bump /home/rafaelcostaf/Desktop/wharehouse/Metal_nrm.png
+map_Kd /home/rafaelcostaf/Desktop/wharehouse/Metal_color.png
+map_Ns /home/rafaelcostaf/Desktop/wharehouse/Metal_rough.png
+refl /home/rafaelcostaf/Desktop/wharehouse/Metal_met.png
+
+newmtl Roof
+Ns 225.000000
+Ka 1.000000 1.000000 1.000000
+Kd 0.800000 0.800000 0.800000
+Ks 0.500000 0.500000 0.500000
+Ke 0.000000 0.000000 0.000000
+Ni 1.450000
+d 1.000000
+illum 2
+map_Bump /home/rafaelcostaf/Desktop/wharehouse/roof_nrm.png
+map_Kd /home/rafaelcostaf/Desktop/wharehouse/roof_color.png
+map_Ns /home/rafaelcostaf/Desktop/wharehouse/roof_rough.png
+refl /home/rafaelcostaf/Desktop/wharehouse/roof_met.png
+
+newmtl Wall
+Ns 225.000000
+Ka 1.000000 1.000000 1.000000
+Kd 0.800000 0.800000 0.800000
+Ks 0.500000 0.500000 0.500000
+Ke 0.000000 0.000000 0.000000
+Ni 1.450000
+d 1.000000
+illum 2
+map_Bump /home/rafaelcostaf/Desktop/wharehouse/walls_nrm.png
+map_Kd /home/rafaelcostaf/Desktop/wharehouse/walls_color.png
+map_Ns /home/rafaelcostaf/Desktop/wharehouse/walls_rough.png
+refl /home/rafaelcostaf/Desktop/wharehouse/walls_met.png

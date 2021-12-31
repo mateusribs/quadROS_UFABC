@@ -1,0 +1,2 @@
+
+-DCATKIN_DEVEL_PREFIX=/home/mateusrib/quad_ufabc_ws/devel -DCMAKE_INSTALL_PREFIX=/home/mateusrib/quad_ufabc_ws/install -G Unix Makefiles

@@ -1,0 +1,31 @@
+<?xml version="1.0"?>
+<robot xmlns:xacro="http://www.ros.org/wiki/xacro" name="aruco">
+<pose>0 0 0.05 0 0 0</pose>
+
+
+<link name="aruco_fixed">
+	
+	
+	<inertial>
+  		<origin xyz="0 0 0.1" rpy="0 0 0"/>
+  		<mass value="0.0001" />
+  		<inertia ixx="0.07" ixy="0.0" ixz="0.0" iyy="0.05" iyz="0.0" izz="0.02" />
+  	</inertial> 
+  	
+  	<collision>
+      		<origin xyz="0 0 0" rpy="0 0 0"/>
+      		<geometry>
+    			<box size="0.3 0.3 0.001"/>
+      		</geometry>
+    	</collision>
+  	
+
+	<visual>
+		<geometry>
+			<mesh filename="package://quad_ufabc/meshes/aruco_fixed.dae"/>
+		</geometry>
+	</visual>
+</link>
+  	
+
+</robot>
