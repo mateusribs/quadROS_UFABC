@@ -72,4 +72,4 @@ Ao executar esse código, o ROS irá inicializar os nós de visão computacional
 
 ## Referências
 
-[1] SOLà, J. Quaternion kinematics for the error-state kalman filter. 2017.
+[1] SOLÀ, J. Quaternion kinematics for the error-state kalman filter. 2017.
