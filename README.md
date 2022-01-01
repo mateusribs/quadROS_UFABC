@@ -37,7 +37,7 @@ Configure o bash (Mude o username pelo seu nome de usuário utilizado no Ubuntu)
 
 - Após ter configurado o workspace, realize o download ZIP desse repositório; 
 - Copie a pasta "/src";
-- Cole a pasta "/src" em "~/quad_ufabc_ws" substituindo a pasta "~/quad_ufabc_ws/src" criada por padrão.
+- Cole a pasta "/src" em "/quad_ufabc_ws" substituindo a pasta "/quad_ufabc_ws/src" criada por padrão.
 
 ## Execução da simulação
 
