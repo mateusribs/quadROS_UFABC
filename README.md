@@ -41,7 +41,7 @@ Configure o bash (Mude o username pelo seu nome de usuário utilizado no Ubuntu)
 
 ## Execução da simulação
 
-Tendo configurado o ambiente ROS/Gazebo já é possível executar a simulação. 
+Tendo configurado o ambiente ROS/Gazebo, já é possível executar a simulação. 
 
 Para abrir o simulador Gazebo, dê o seguinte comando no terminal:
 
