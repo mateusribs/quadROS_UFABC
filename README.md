@@ -68,3 +68,8 @@ Tendo todos os pacotes instalados, execute o seguinte comando:
 ```
 
 Ao executar esse código, o ROS irá inicializar os nós de visão computacional, estimação dos estados e controle do veículo. O quadrirrotor seguirá uma trajetória pré-definida e serão mostradas as visualização das duas câmeras.
+
+
+## Referências
+
+[1] SOLà, J. Quaternion kinematics for the error-state kalman filter. 2017.
