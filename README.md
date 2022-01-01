@@ -14,7 +14,7 @@ OBS: O link acima oferece as informações para instalação no sistema operacio
 
 Após a instalação do ROS/Gazebo, é necessário criar um workspace. No prompt de comando, siga as seguintes instruções:
 
-Criando um workspace no diretório home/username/quad_ufabc_ws, e em ~/quad_ufabc_ws/src serão armazenados os pacotes utilizados:
+Crie um workspace no diretório home/username/quad_ufabc_ws, e em ~/quad_ufabc_ws/src serão armazenados os pacotes utilizados:
 
 ```
 ~$ mkdir -p ~/quad_ufabc_ws/src
@@ -22,15 +22,16 @@ Criando um workspace no diretório home/username/quad_ufabc_ws, e em ~/quad_ufab
 ~$ source /opt/ros/noetic/setup.bash
 ~$ catkin_init_workspace 
 ```
-Compilando o workspace:
+Compile o workspace:
 
 ```
 ~$ cd ..
 ~$ catkin_make
 ```
-Configurando o bash (Mude o username pelo seu nome de usuário utilizado no Ubuntu):
+Configure o bash (Mude o username pelo seu nome de usuário utilizado no Ubuntu):
 
 ```
 ~$ echo "source /home/username/quad_ufabc_ws/devel/setup.bash" >> ~/.bashrc
 ~$ source ~/.bashrc
 ```
+
