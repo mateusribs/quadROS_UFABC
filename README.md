@@ -1,73 +1,94 @@
-# Quadrirrotor UFABC - ROS/Gazebo
+# quadROS UFABC
 
-O principal objetivo deste repositório é perpetuar o trabalho que vem sido realizado durante meu projeto de mestrado no programa de pós-graduação em Engenharia Mecânica pela Universidade Federal do ABC. O tema do meu trabalho é "Estimação de Posição e Atitude de um Quadrirrotoro Utilizando Visão Computacional", e tem como principal objetivo realizar a navegação de um veículo quadrirrotor, em ambientes fechados que não possuem sinal de GPS, utilizando visão computacional. Para realizar a estimação dos estados foi utilizado um Filtro de Kalman dos Erros de Estado (Error State Kalman Filter [1]) e a partir deles um sistema de controle em cascata foi implementado para que o quadrirrotor seguisse uma trajetória pré-definida. Um vídeo contendo algumas simulações pode ser visto em: https://youtu.be/_FUcOvvbstQ.
+This repository aims to maintain the research made in my master's thesis. The title of the project is "Position and Attitude Estimation of a Quadrotor Using Computer Vision", where the main task is to accomplish indoor navigation in a GPS-denied environment using computer vision techniques. The state estimation was made using Error State Kalman Filter [1] and for the quadrotor's control, it was implemented a cascade PID. The simulations are available in [Video Simulation](https://youtu.be/_FUcOvvbstQ).
 
-O ambiente de simulação é configurado no sistema Gazebo/ROS, visto que são ferramentas amplamente utilizadas pela comunidade robótica e, portanto, oferecem muitas aplicações que satisfazem a necessidade desse trabalho.
 
-A seguir serão expostas algumas informações de como configurar o ROS/Gazebo e também instruções para realizar a simulação. Caso hajam dúvidas contatar os colaboradores desse projeto.
+# Installation
 
-## Instalação e configuração do ambiente ROS/Gazebo
+## Docker (Recommended)
 
-A versão do ROS utilizada nesse trabalho foi a Noetic. As instruções para instalação dos ROS/Gazebo estão disponíveis em: http://wiki.ros.org/noetic/Installation/Ubuntu. Recomenda-se que, no tópico 1.4 - Installation, execute a instalação Desktop-Full Install, pois já instala todos os pacotes necessários do ROS, além de instalar o simulador Gazebo.
+Clone this repository and follow the instructions:
 
-OBS: O link acima oferece as informações para instalação no sistema operacional Ubuntu 20.04 LS. Para outros sistemas operacionais consultar: http://wiki.ros.org/noetic/Installation.
-
-Após a instalação do ROS/Gazebo, é necessário criar um workspace. No prompt de comando, siga as seguintes instruções:
-
-Crie um workspace no diretório home/username/quad_ufabc_ws, e em ~/quad_ufabc_ws/src serão armazenados os pacotes utilizados:
+1 - Build a Docker image:
 
 ```
-~$ mkdir -p ~/quad_ufabc_ws/src
-~$ cd ~/quad_ufabc_ws/src
+~$ docker build . -t quad_ufabc:latest
+```
+2 - Run shell script to create the Docker container:
+
+```
+~$ sudo bash start_container.bash
+```
+
+3 - Execute the commands located on **Running application** section of this repository.
+
+## Linux (Ubuntu 20.04 LS)
+
+The ROS version used in this work is Noetic. The official installation guide can be accesed on:[ROS Noetic Installation](http://wiki.ros.org/noetic/Installation/Ubuntu). It is reccommended that in 1.4 Installation topic, the choice of the option **Desktop-Full Install**, because it already install all the dependencies, including the Gazebo simulator. 
+
+After ROS/Gazebo installation, it is necessary create a workspace. Open the terminal on Ubuntu, and follow the instrunctions:
+
+- Install some dependencies of ROS:
+
+```
+~$ sudo apt-get install ros-noetic-ros-control ros-noetic-ros-controllers -y
+```
+
+- Create a work directory:
+
+```
+~$ mkdir /path/to/work/directory
+```
+
+- On the created directory, create another folder called **src** and initialize the workspace:
+
+```
+~$ mkdir /path/to/work/directory/src
+~$ cd /path/to/work/directory/src
 ~$ source /opt/ros/noetic/setup.bash
 ~$ catkin_init_workspace 
 ```
-Compile o workspace:
+
+- Compile workspace:
 
 ```
 ~$ cd ..
 ~$ catkin_make
 ```
-Configure o bash (Mude o username pelo seu nome de usuário utilizado no Ubuntu):
+- Configure the .bashrc:
 
 ```
-~$ echo "source /home/username/quad_ufabc_ws/devel/setup.bash" >> ~/.bashrc
+~$ echo "source /path/to/work/directory/devel/setup.bash" >> ~/.bashrc
 ~$ source ~/.bashrc
 ```
 
-- Após ter configurado o workspace, realize o download ZIP desse repositório; 
-- Copie a pasta "/src";
-- Cole a pasta "/src" em "/quad_ufabc_ws" substituindo a pasta "/quad_ufabc_ws/src" criada por padrão.
+- Clone this repository, copy and paste the **src** folder into the work directory.
 
-## Execução da simulação
+- Create a virtual environment (in this case, we will use __venv__ from Python, but feel free to use another one):
 
-Tendo configurado o ambiente ROS/Gazebo, já é possível executar a simulação. 
+```
+~$ python3 -m venv venv
+~$ source venv/bin/activate
+```
 
-Para abrir o simulador Gazebo, dê o seguinte comando no terminal:
+- On cloned repository, run the python dependencies installation using __pip__:
+```
+~$ pip install -r requirements.txt
+```
+
+## Running application
+
+Initialize Gazebo:
 
 ```
 ~$ roslaunch quad_ufabc quad.launch
 ```
-Ao executar esse código, o simulador Gazebo será aberto. Na simulação serão encontrados o quadrirrotor, os marcadores artificiais, as câmeras e um cone.
 
-Para executar os comandos de simulação utilizando o ROS, é necessário que os seguintes pacotes Python estejam instalados na sua máquina:
-
-- Numpy v.1.19.5;
-- Pickle v.4;
-- Scipy v.1.5.0;
-- Matplotlib v.3.2.2;
-- OpenCV v.4.2.0;
-- Statistics v.1.0.3.5;
-
-Obs: Caso haja algum problema na execução, favor contatar os contribuidores desse repositório.
-
-Tendo todos os pacotes instalados, execute o seguinte comando:
+Run simulation
 
 ```
 ~$ rosrun quad_ufabc main.py
 ```
-
-Ao executar esse código, o ROS irá inicializar os nós de visão computacional, estimação dos estados e controle do veículo. O quadrirrotor seguirá uma trajetória pré-definida e serão mostradas as visualização das duas câmeras.
 
 
 ## Referências
