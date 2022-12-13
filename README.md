@@ -91,6 +91,6 @@ Run simulation
 ```
 
 
-## Referências
+## References
 
 [1] SOLÀ, J. Quaternion kinematics for the error-state kalman filter. 2017.
