@@ -12,7 +12,7 @@ docker run --rm -it \
         --volume="$XAUTH:$XAUTH" \
         --net=host \
         --privileged \
-        teste:latest \
+        quad_ufabc:latest \
         bash
 
 echo "Container Closed"
