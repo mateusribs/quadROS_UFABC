@@ -24,7 +24,7 @@ Clone this repository and follow the instructions:
 
 ## Linux (Ubuntu 20.04 LS)
 
-The ROS version used in this work is Noetic. The official installation guide can be accesed on:[ROS Noetic Installation](http://wiki.ros.org/noetic/Installation/Ubuntu). It is reccommended that in 1.4 Installation topic, the choice of the option **Desktop-Full Install**, because it already install all the dependencies, including the Gazebo simulator. 
+The ROS version used in this work is Noetic. The official installation guide can be accesed on:[ROS Noetic Installation](http://wiki.ros.org/noetic/Installation/Ubuntu). It is reccommended in 1.4 Installation topic, the choice of the option **Desktop-Full Install**, because it already install all the dependencies, including the Gazebo simulator. 
 
 After ROS/Gazebo installation, it is necessary create a workspace. Open the terminal on Ubuntu, and follow the instrunctions:
 
